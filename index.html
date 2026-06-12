@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bau-Ausschreibungen Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M4 19h16M6 19V8l6-4 6 4v11M9 19v-6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Bau-Ausschreibungen</h1>
+            <p>Aktualisiert: <span id="updatedAt"></span></p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="primary-button" id="printButton" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Drucken
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar">
+          <section class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Suchprofil</h2>
+              <ul class="profile-list" id="profileList"></ul>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Filter</h2>
+              <div class="filters">
+                <div class="field">
+                  <label for="search">Suche</label>
+                  <input id="search" type="search" placeholder="Ort, Auftraggeber, Gewerk">
+                </div>
+                <div class="field">
+                  <label for="typeFilter">Auftragsart</label>
+                  <select id="typeFilter">
+                    <option>Alle</option>
+                    <option>Oeffentlich</option>
+                    <option>Privat/Gewerblich</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="statusFilter">Status</label>
+                  <select id="statusFilter">
+                    <option>Alle</option>
+                    <option>Dringend</option>
+                    <option>Pruefen</option>
+                    <option>Neu</option>
+                    <option>Beobachten</option>
+                    <option>Quelle</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="sortFilter">Sortierung</label>
+                  <select id="sortFilter">
+                    <option value="deadline">Frist zuerst</option>
+                    <option value="priority">Prioritaet</option>
+                    <option value="category">Kategorie</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Naechste Fristen</h2>
+              <div class="timeline" id="timeline"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Quellen</h2>
+              <ul class="source-list" id="sourceList"></ul>
+              <p class="print-note">Private Bauvorhaben liegen oft hinter Portalen. Diese Quellen sind als feste Pruefpunkte hinterlegt.</p>
+            </div>
+          </section>
+        </aside>
+
+        <section class="content">
+          <div class="hero">
+            <h2>Bundesweite Bau-Ausschreibungen in einer Arbeitsansicht.</h2>
+            <p>Hochbau, Tiefbau, Brueckenbau, Ingenieurbauwerke sowie private und gewerbliche Bauvorhaben. Die Liste ist als Startbestand angelegt und kann spaeter automatisch per Cron aktualisiert werden.</p>
+            <div class="stats">
+              <div class="stat">
+                <strong id="statTotal">0</strong>
+                <span>Gespeicherte Treffer</span>
+              </div>
+              <div class="stat">
+                <strong id="statVisible">0</strong>
+                <span>Sichtbar nach Filter</span>
+              </div>
+              <div class="stat">
+                <strong id="statUrgent">0</strong>
+                <span>Fristen in 7 Tagen</span>
+              </div>
+              <div class="stat">
+                <strong id="statBridge">0</strong>
+                <span>Bruecken-Treffer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="tabs" id="tabs"></div>
+            <div class="count-label"><span id="resultCount">0 Treffer</span> / <span id="privateCount">0</span> private Quellen</div>
+          </div>
+
+          <div class="empty" id="empty">Keine Treffer fuer diese Filter.</div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ausschreibung</th>
+                  <th>Auftraggeber</th>
+                  <th>Ort</th>
+                  <th>Kategorie</th>
+                  <th>Art</th>
+                  <th>Frist</th>
+                  <th>Status</th>
+                  <th>Aktion</th>
+                </tr>
+              </thead>
+              <tbody id="tenderRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="imprint">
+        <span>Made by Stefan Nepita</span>
+      </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
